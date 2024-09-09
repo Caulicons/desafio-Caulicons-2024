@@ -1,7 +1,6 @@
-let id = 1
 export class Recinto {
 
-  constructor(biomas, tamanhoTotal) {
+  constructor(id, biomas, tamanhoTotal) {
     this.id = id++
     this.biomas = biomas
     this.tamanhoTotal = tamanhoTotal

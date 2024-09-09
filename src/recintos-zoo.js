@@ -2,35 +2,36 @@ import { Especie } from "./classes/animais.js";
 import { bioma } from "./classes/biomas.js";
 import { Recinto } from "./classes/recintos.js";
 
-// Especies disponíveis enunciados
-const especiesDisponiveis = {
-    LEAO: new Especie('LEAO', 3, true, [bioma.savana]),
-    LEOPARDO: new Especie('LEOPARDO', 2, true, [bioma.savana]),
-    CROCODILO: new Especie('CROCODILO', 3, true, [bioma.rio]),
-    MACACO: new Especie('MACACO', 1, false, [bioma.savana, bioma.floresta]),
-    GAZELA: new Especie('GAZELA', 2, false, [bioma.savana]),
-    HIPOPOTAMO: new Especie('HIPOPOTAMO', 4, false, [bioma.savana, bioma.rio]),
-}
-
-// Criando recintos do enunciado
-const recintosDisponiveis = [
-    new Recinto([bioma.savana], 10),
-    new Recinto([bioma.floresta], 5),
-    new Recinto([bioma.savana, bioma.rio], 7),
-    new Recinto([bioma.rio], 8),
-    new Recinto([bioma.savana], 9),
-]
-
-//Adicionando animais do enunciado
-recintosDisponiveis[0].addAnimal(especiesDisponiveis.MACACO, 3)
-recintosDisponiveis[2].addAnimal(especiesDisponiveis.GAZELA, 1)
-recintosDisponiveis[4].addAnimal(especiesDisponiveis.LEAO, 1)
-
 class RecintosZoo {
     recintosViaveis = []
+    constructor() {
+        //Adicionando Especies disponíveis segundo o enunciado
+        this.especiesDisponiveis = {
+            LEAO: new Especie('LEAO', 3, true, [bioma.savana]),
+            LEOPARDO: new Especie('LEOPARDO', 2, true, [bioma.savana]),
+            CROCODILO: new Especie('CROCODILO', 3, true, [bioma.rio]),
+            MACACO: new Especie('MACACO', 1, false, [bioma.savana, bioma.floresta]),
+            GAZELA: new Especie('GAZELA', 2, false, [bioma.savana]),
+            HIPOPOTAMO: new Especie('HIPOPOTAMO', 4, false, [bioma.savana, bioma.rio]),
+        }
+
+        // Criando recintos do enunciado
+        this.recintosDisponiveis = [
+            new Recinto(1, [bioma.savana], 10),
+            new Recinto(2, [bioma.floresta], 5),
+            new Recinto(3, [bioma.savana, bioma.rio], 7),
+            new Recinto(4, [bioma.rio], 8),
+            new Recinto(5, [bioma.savana], 9),
+        ]
+
+        //Adicionando animais do enunciado
+        this.recintosDisponiveis[0].addAnimal(this.especiesDisponiveis.MACACO, 3)
+        this.recintosDisponiveis[2].addAnimal(this.especiesDisponiveis.GAZELA, 1)
+        this.recintosDisponiveis[4].addAnimal(this.especiesDisponiveis.LEAO, 1)
+    }
 
     analisaRecintos(especie, quantidade) {
-        const animal = especiesDisponiveis[especie];
+        const animal = this.especiesDisponiveis[especie];
         if (!animal)
             return {
                 erro: "Animal inválido",
@@ -73,7 +74,7 @@ class RecintosZoo {
     }
 
     selecionarBiomasAdequados(animal) {
-        this.recintosViaveis = recintosDisponiveis.filter(recinto =>
+        this.recintosViaveis = this.recintosDisponiveis.filter(recinto =>
             recinto.biomas.some(bioma =>
                 animal.biomas.includes(bioma)
             )
@@ -101,7 +102,7 @@ class RecintosZoo {
 
     verificandoSerOAnimalEhHipopotamo(animal) {
 
-        if (animal.especie === especiesDisponiveis.HIPOPOTAMO.especie)
+        if (animal.especie === this.especiesDisponiveis.HIPOPOTAMO.especie)
             this.recintosViaveis = this.recintosViaveis.filter(recinto => {
                 const biomaEhSavanaRio = (recinto.biomas.includes(bioma.rio) && recinto.biomas.includes(bioma.savana))
                 return recinto.estaVazio() || biomaEhSavanaRio ? true
@@ -112,7 +113,7 @@ class RecintosZoo {
     }
 
     verificandoSerOAnimalEhMamaco(animal, quantidade) {
-        if (animal.especie === especiesDisponiveis.MACACO.especie)
+        if (animal.especie === this.especiesDisponiveis.MACACO.especie)
             this.recintosViaveis = this.recintosViaveis.filter(recinto =>
                 recinto.quantidadeDeAnimais() > 0 || quantidade > 1 ? true : null
             )
