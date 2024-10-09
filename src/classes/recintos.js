@@ -1,7 +1,7 @@
 export class Recinto {
 
   constructor(id, biomas, tamanhoTotal) {
-    this.id = id++
+    this.id = id
     this.biomas = biomas
     this.tamanhoTotal = tamanhoTotal
     this.animais = []
@@ -21,15 +21,16 @@ export class Recinto {
   }
 
   espacoOcupado() {
-    // Quando há mais de uma espécie no mesmo recinto, é preciso considerar 1 espaço extra ocupado
     let espacoOcupado = this.animais.reduce((acc, animal) => acc + animal.tamanho, 0)
 
+    // Quando há mais de uma espécie no mesmo recinto, é preciso considerar 1 espaço extra ocupado
     const primeiroAnimal = this.animais[0]
-    for (let i = 0; i < this.animais.length; i++)
-      if (primeiroAnimal.especie !== this.animais[i].especie) {
+    for (const animal of this.animais) {
+      if (primeiroAnimal.especie !== animal.especie) {
         espacoOcupado++
         break
       }
+    }
     return espacoOcupado
   }
 
@@ -37,5 +38,3 @@ export class Recinto {
     return this.tamanhoTotal - this.espacoOcupado()
   }
 }
-
-

@@ -50,7 +50,7 @@ class RecintosZoo {
         this.selecionarRecintosComEspacoLivre(animal, quantidade)
         // Lidando Com Animais Carnívoros
         this.lidandoComAnimaisCarnivoros(animal)
-        // Verificando se o animal é hipopótamo, caso for, só pode está em um bioma com savana e rio
+        // Verificando se o animal é hipopótamo, caso for, só pode ter outra especie caso o recinto for bioma savana e rio.
         this.verificandoSerOAnimalEhHipopotamo(animal)
         //Um macaco não se sente confortável sem outro animal no recinto, seja da mesma ou outra espécie
         this.verificandoSerOAnimalEhMamaco(animal, quantidade)
@@ -92,7 +92,7 @@ class RecintosZoo {
         this.recintosViaveis = this.recintosViaveis.filter(recinto => {
             // Se o recinto estiver vazio então não precisa verificar
             if (recinto.estaVazio()) return true
-            // Verificando ser existe algum animal carnivoro caso tiver só podem ter recintos da mesma ou outra espécie
+            // Verificando ser existe algum animal carnivoro 
             return recinto.animais.some(animalNoRecinto =>
                 // Se alguns dos animais for carnívoro, eles só podem está no mesmo recinto se for da mesma especie.
                 animal.carnivoro || animalNoRecinto.carnivoro ? animal.especie === animalNoRecinto.especie : true
@@ -115,7 +115,7 @@ class RecintosZoo {
     verificandoSerOAnimalEhMamaco(animal, quantidade) {
         if (animal.especie === this.especiesDisponiveis.MACACO.especie)
             this.recintosViaveis = this.recintosViaveis.filter(recinto =>
-                recinto.quantidadeDeAnimais() > 0 || quantidade > 1 ? true : null
+                recinto.quantidadeDeAnimais() > 0 || quantidade > 1 ? true : false
             )
     }
 }
