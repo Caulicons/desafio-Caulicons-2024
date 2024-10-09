@@ -45,5 +45,25 @@ describe('Recintos do Zoologico', () => {
         expect(resultado.recintosViaveis.length).toBe(1);
     })
 
+    test('Não deve retorna o recinto 4 para o 1 Hipopotamo porquê tem um crocodilo lá', () => {
+
+        const recinto = new RecintosZoo()
+        // Adicionando crocodilo no recinto 4
+        recinto.recintosDisponiveis[3].addAnimal(recinto.especiesDisponiveis.CROCODILO, 1)
+        const resultado = recinto.analisaRecintos('HIPOPOTAMO', 1)
+        expect(resultado.erro).toBeFalsy();
+        expect(resultado.recintosViaveis[0]).toBe('Recinto 3 (espaço livre: 0 total: 7)');
+        expect(resultado.recintosViaveis.length).toBe(1);
+    }
+    )
+
+    test('Um macaco não pode ficar em um recinto caso só tenha ele', () => {
+
+        const resultado = new RecintosZoo().analisaRecintos('MACACO', 1);
+        expect(resultado.erro).toBeFalsy();
+        expect(resultado.recintosViaveis[0]).toBe('Recinto 1 (espaço livre: 6 total: 10)');
+        expect(resultado.recintosViaveis[1]).toBe('Recinto 3 (espaço livre: 3 total: 7)');
+        expect(resultado.recintosViaveis.length).toBe(2);
+    })
 });
 
